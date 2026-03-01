@@ -533,14 +533,14 @@ function render() {
     if (curr.highlight === "search")
       blockContainer.classList.add("search-highlight");
 
-    if (curr.highlight === "reuse")
-      blockContainer.classList.add("reuse-highlight");
-
     if (curr.highlight === "split")
       blockContainer.classList.add("split-highlight");
 
     if (curr.highlight === "expand")
       blockContainer.classList.add("expand-highlight");
+
+    if (curr.highlight === "coalesce")
+      blockContainer.classList.add("coalesce-highlight");
 
     curr.highlight = null;
 
@@ -814,7 +814,12 @@ async function reallocBlock() {
   if (block.next_phys && block.next_phys.free &&
       block.size + METADATA_SIZE + block.next_phys.size >= alignedSize) {
     const next = block.next_phys;
+    block.highlight = "expand";
     next.highlight = "coalesce";
+    render();
+    await sleep(speed);
+
+    block.mergeRight = true;
     render();
     await sleep(speed);
 
@@ -823,6 +828,11 @@ async function reallocBlock() {
     block.next_phys = next.next_phys;
     if (next.next_phys) next.next_phys.prev_phys = block;
     else heap.tail = block;
+    //render();
+    //await sleep(speed);
+    block.justCoalesced = true;
+    render();
+    await sleep(speed);
 
     // Split if now too large
     if (block.size >= alignedSize + METADATA_SIZE + 16) {
