@@ -12,6 +12,10 @@ Hover over blocks to view metadata and payload information. Click on a block to 
 
 ---
 
+## 🔗 Links
+- [Devpost Entry with Demo Video](https://devpost.com/software/malloc-visualizer)
+- [Live Web Page](https://artkha1.github.io/malloc_visualizer/malloc_visualizer.html)
+
 ## ⚙️ Key Features
 
 - **Dynamic Allocation:** `malloc` allocates memory blocks with first-fit strategy.
